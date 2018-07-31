@@ -34,7 +34,7 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
 
     @Override
     public void onBindViewHolder(@NonNull AppsListPageAdapterViewHolder holder, int position) {
-        holder.bind(applications.get(position));
+        holder.bind(context,applications.get(position));
     }
 
     @Override
@@ -51,9 +51,15 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
             this.appIcon = itemView.findViewById(R.id.app_icon);
         }
 
-        private void bind(Application application){
+        private void bind(final Context context,final Application application){
             this.appIcon.setImageDrawable(application.getApplicationIcon());
             this.appText.setText(application.getApplicationName());
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    application.launch(context);
+                }
+            });
         }
     }
 }

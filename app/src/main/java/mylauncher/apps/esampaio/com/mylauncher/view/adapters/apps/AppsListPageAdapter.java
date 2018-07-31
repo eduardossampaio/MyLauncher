@@ -52,7 +52,7 @@ public class AppsListPageAdapter extends PagerAdapter {
         View baseLayout = LayoutInflater.from(this.context).inflate(R.layout.apps_page,container,false);
         ImageView backgroundImage = baseLayout.findViewById(R.id.background);
         RecyclerView appsList = baseLayout.findViewById(R.id.apps_list);
-        int yourColumn = 4;
+//        int yourColumn = 4;
 //        appsList.addItemDecoration( new LayoutMarginDecoration( yourColumn, 30 ) );
         appsList.setAdapter(new AppsListAdapter(this.context,sublist(position)));
         appsList.setLayoutManager(new GridLayoutManager(this.context,4));
