@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:fitsSystemWindows="true"
-            android:name=".HomeActivity">
+            android:name=".view.activities.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

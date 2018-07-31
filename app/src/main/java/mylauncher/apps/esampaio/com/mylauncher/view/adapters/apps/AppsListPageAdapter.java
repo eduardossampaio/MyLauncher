@@ -1,7 +1,6 @@
-package mylauncher.apps.esampaio.com.mylauncher;
+package mylauncher.apps.esampaio.com.mylauncher.view.adapters.apps;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import android.support.v4.view.PagerAdapter;
@@ -14,15 +13,32 @@ import android.widget.ImageView;
 
 import com.thekhaeng.recyclerviewmargin.LayoutMarginDecoration;
 
+import java.util.List;
+
+import mylauncher.apps.esampaio.com.mylauncher.R;
+import mylauncher.apps.esampaio.com.mylauncher.core.entities.Application;
+import mylauncher.apps.esampaio.com.mylauncher.view.adapters.apps.AppsListAdapter;
+
 public class AppsListPageAdapter extends PagerAdapter {
     private Context context;
+    private List<Application> applicationList;
+    private int pagesCount = 0;
 
-    public AppsListPageAdapter(Context context){
+    public AppsListPageAdapter(Context context,List<Application> applicationList){
         this.context = context;
+        this.applicationList = applicationList;
+        if(applicationList.size() < 24){
+            this.pagesCount = 1;
+        }else {
+            this.pagesCount = applicationList.size() / 24;
+            if( applicationList.size() % 24 != 0){
+                this.pagesCount++;
+            }
+        }
     }
     @Override
     public int getCount() {
-        return 6;
+        return pagesCount;
     }
 
     @Override
@@ -37,8 +53,8 @@ public class AppsListPageAdapter extends PagerAdapter {
         ImageView backgroundImage = baseLayout.findViewById(R.id.background);
         RecyclerView appsList = baseLayout.findViewById(R.id.apps_list);
         int yourColumn = 4;
-        appsList.addItemDecoration( new LayoutMarginDecoration( yourColumn, 30 ) );
-        appsList.setAdapter(new AppsListAdapter(this.context));
+//        appsList.addItemDecoration( new LayoutMarginDecoration( yourColumn, 30 ) );
+        appsList.setAdapter(new AppsListAdapter(this.context,sublist(position)));
         appsList.setLayoutManager(new GridLayoutManager(this.context,4));
         if(position % 3 ==0){
             backgroundImage.setImageResource(R.drawable.wallpaper1);
@@ -49,6 +65,15 @@ public class AppsListPageAdapter extends PagerAdapter {
         }
         container.addView(baseLayout);
         return baseLayout;
+    }
+
+    private List<Application> sublist(int pageNumber){
+        int min = 24 * pageNumber;
+        int max = min + 24;
+        if(max >= applicationList.size()){
+            max = applicationList.size();
+        }
+        return applicationList.subList(min,max);
     }
 
     @Override
