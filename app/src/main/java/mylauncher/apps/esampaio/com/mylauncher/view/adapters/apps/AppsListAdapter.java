@@ -52,7 +52,7 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
         }
 
         private void bind(final Context context,final Application application){
-            this.appIcon.setImageDrawable(application.getApplicationIcon());
+            this.appIcon.setImageDrawable(application.getApplicationIcon(context));
             this.appText.setText(application.getApplicationName());
             this.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

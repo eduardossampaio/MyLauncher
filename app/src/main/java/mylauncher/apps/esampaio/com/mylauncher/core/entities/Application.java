@@ -4,34 +4,46 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Application {
-    private ActivityInfo activityInfo;
-    private Drawable icon;
+import java.io.Serializable;
+import java.util.List;
+
+import mylauncher.apps.esampaio.com.mylauncher.R;
+
+public class Application implements Serializable {
+
+//    private Drawable icon;
     private String name;
-    private Intent launchIntent;
+    private String packageName;
 
-    public Application(ActivityInfo activityInfo){
-        this.activityInfo = activityInfo;
-    }
-
-    public void load(PackageManager packageManager){
-        this.icon = this.activityInfo.loadIcon(packageManager);
-        this.name = this.activityInfo.loadLabel(packageManager).toString();
-
-        launchIntent = packageManager.getLaunchIntentForPackage(this.activityInfo.packageName);
+    public void load(ResolveInfo resolveInfo,PackageManager packageManager){
+        ActivityInfo activityInfo = resolveInfo.activityInfo;
+        this.name = activityInfo.loadLabel(packageManager).toString();
+        this.packageName = activityInfo.packageName;
 
     }
+
     public String getApplicationName(){
        return name;
     }
 
-    public Drawable getApplicationIcon(){
-        return this.icon;
+    public Drawable getApplicationIcon(Context context){
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            return packageManager.getApplicationIcon(this.packageName);
+        } catch (PackageManager.NameNotFoundException e) {
+            return context.getDrawable(R.mipmap.ic_launcher);
+        }
+
     }
 
     public void launch(Context context){
+        PackageManager packageManager = context.getPackageManager();
+        Intent launchIntent =  packageManager.getLaunchIntentForPackage(this.packageName);
         if (launchIntent != null) {
             context.startActivity(launchIntent);
         }
