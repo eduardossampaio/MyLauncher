@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@null"
-        android:gravity="center_horizontal"
+        android:gravity="center_horizontal|top"
         android:orientation="vertical"
         app:layout_constraintDimensionRatio="H,1:1">
 

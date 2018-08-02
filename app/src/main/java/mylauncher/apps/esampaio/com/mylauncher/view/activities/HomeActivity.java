@@ -1,6 +1,11 @@
 package mylauncher.apps.esampaio.com.mylauncher.view.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,20 +19,25 @@ import android.widget.LinearLayout;
 import android.widget.ViewSwitcher;
 
 import com.huanhailiuxin.coolviewpager.CoolViewPager;
+import com.huanhailiuxin.coolviewpager.adapter.LoopPagerAdapterWrapper;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import id.zelory.compressor.Compressor;
 import mylauncher.apps.esampaio.com.mylauncher.core.entities.Application;
 import mylauncher.apps.esampaio.com.mylauncher.core.packages.PackageUtils;
 import mylauncher.apps.esampaio.com.mylauncher.view.adapters.apps.AppsListPageAdapter;
 import mylauncher.apps.esampaio.com.mylauncher.R;
+import mylauncher.apps.esampaio.com.mylauncher.view.custom.InfinitePagerAdapter;
+import mylauncher.apps.esampaio.com.mylauncher.view.util.BitmapUtils;
 import mylauncher.apps.esampaio.com.mylauncher.view.wallpaper.WallpaperService;
 
 public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
     private ViewPager appsViewPager;
-    private Drawable[] backgrounds;
+    private Bitmap[] backgroundsBitmaps;
     private ImageSwitcher imageSwitcher;
 
     @Override
@@ -48,12 +58,14 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
             }
         });
         appsViewPager.addOnPageChangeListener(this);
-        appsViewPager.setAdapter(new AppsListPageAdapter(getSupportFragmentManager(),this,applications));
-        //temporario
-        backgrounds = new Drawable[2];
-        backgrounds[0] = getResources().getDrawable(R.drawable.wallpaper5,null);
-        backgrounds[1] = getResources().getDrawable(R.drawable.wallpaper6,null);
 
+        AppsListPageAdapter pageAdapter = new AppsListPageAdapter(getSupportFragmentManager(), this, applications);
+        appsViewPager.setAdapter(pageAdapter);
+        //temporario
+        backgroundsBitmaps = new Bitmap[2];
+        int quality = 600;
+        backgroundsBitmaps[0] = BitmapUtils. decodeSampledBitmapFromResource(getResources(), R.drawable.wallpaper5, quality, quality);
+        backgroundsBitmaps[1] = BitmapUtils. decodeSampledBitmapFromResource(getResources(), R.drawable.wallpaper6, quality, quality);
         setBackgroundImage(0);
     }
 
@@ -70,12 +82,24 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int position) {
-        Log.d("HomeActivity",position+"");
         setBackgroundImage(position);
     }
 
-    private void setBackgroundImage(int position){
-        imageSwitcher.setImageDrawable(backgrounds[position]);
+    private void setBackgroundImage(final int position){
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+            int realPosition = position % 2;
+            imageSwitcher.setImageDrawable(new BitmapDrawable(getResources(),backgroundsBitmaps[realPosition]));
+        }catch (Exception e){
+
+        }
+            }
+        },100);
+
     }
 
     @Override
