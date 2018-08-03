@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--<item-->
+        <!--app:showAsAction="always"-->
+        <!--android:title="@string/hide"-->
+        <!--android:icon="@mipmap/ic_launcher"-->
+        <!--android:id="@+id/menu_item_hide"/>-->
+
+    <item
+        app:showAsAction="always"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_action_settings"
+        android:iconTint="@color/icons"
+        android:id="@+id/menu_item_settings"/>
+</menu>
