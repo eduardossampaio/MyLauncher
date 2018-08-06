@@ -24,6 +24,15 @@ public class PixelUtils {
         return px;
     }
 
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
 
     public static int getActionBarHeight(Context context) {
         int actionBarHeight = 0;
@@ -38,5 +47,14 @@ public class PixelUtils {
                     context.getResources().getDisplayMetrics());
         }
         return actionBarHeight;
+    }
+
+    public static int getNavigationBarHeight(Context context){
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
     }
 }

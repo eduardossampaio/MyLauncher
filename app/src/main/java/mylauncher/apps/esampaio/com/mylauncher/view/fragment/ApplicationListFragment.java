@@ -18,6 +18,9 @@ import mylauncher.apps.esampaio.com.mylauncher.R;
 import mylauncher.apps.esampaio.com.mylauncher.core.entities.InstalledApplication;
 import mylauncher.apps.esampaio.com.mylauncher.core.entities.Launchable;
 import mylauncher.apps.esampaio.com.mylauncher.view.adapters.apps.AppsListAdapter;
+import mylauncher.apps.esampaio.com.mylauncher.view.custom.ItemOffsetDecoration;
+import mylauncher.apps.esampaio.com.mylauncher.view.custom.SpaceItemDecoration;
+import mylauncher.apps.esampaio.com.mylauncher.view.custom.SpanningGridLayoutManager;
 
 public class ApplicationListFragment extends Fragment {
     public static final String TAG = "ApplicationListFragment";
@@ -38,7 +41,11 @@ public class ApplicationListFragment extends Fragment {
         View baseLayout = inflater.inflate(R.layout.apps_page,container,false);
         RecyclerView appsList = baseLayout.findViewById(R.id.apps_list);
         appsList.setAdapter(new AppsListAdapter(this.getActivity(),applicationList));
-        appsList.setLayoutManager(new GridLayoutManager(this.getActivity(),4));
+        GridLayoutManager gridLayoutManager = new SpanningGridLayoutManager(this.getActivity(), 4);
+//        appsList.addItemDecoration(new SpaceItemDecoration(30,false,false));
+        appsList.setLayoutManager(gridLayoutManager);
+
+        gridLayoutManager.setItemPrefetchEnabled(true);
         return baseLayout;
     }
 

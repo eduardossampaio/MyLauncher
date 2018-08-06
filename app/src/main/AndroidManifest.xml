@@ -3,7 +3,7 @@
     package="mylauncher.apps.esampaio.com.mylauncher">
 
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:name=".core.LauncherApplication"
         android:allowBackup="true"
@@ -14,11 +14,11 @@
         android:theme="@style/AppThemeTranslucentBar">
 
         <activity
+            android:theme="@style/AppThemeTranslucentBar"
             android:name=".view.activities.HomeActivity"
             android:fitsSystemWindows="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />

@@ -1,45 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@null"
     tools:context=".view.activities.HomeActivity">
-
-    <ImageSwitcher
-        android:id="@+id/slide_trans_imageswitcher"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="0dp"
-        android:visibility="invisible"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_marginTop="24dp"
-        android:layout_width="0dp"
-        app:titleTextColor="@android:color/white"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/vp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"
-        android:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:paddingTop="0dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/slide_trans_imageswitcher"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-</android.support.constraint.ConstraintLayout>
+        android:background="@android:color/transparent" />
+</LinearLayout>

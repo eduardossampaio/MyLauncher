@@ -24,7 +24,6 @@ public class InstalledApplication implements Serializable,Launchable {
         ActivityInfo activityInfo = resolveInfo.activityInfo;
         this.name = activityInfo.loadLabel(packageManager).toString();
         this.packageName = activityInfo.packageName;
-
     }
 
     public String getApplicationName(){

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,14 +29,12 @@ import mylauncher.apps.esampaio.com.mylauncher.core.packages.PackageUtils;
 import mylauncher.apps.esampaio.com.mylauncher.view.adapters.apps.AppsListPageAdapter;
 import mylauncher.apps.esampaio.com.mylauncher.view.customizers.background.BackgroundCustomizer;
 import mylauncher.apps.esampaio.com.mylauncher.view.customizers.background.MultipleBackgroundCustomizer;
+import mylauncher.apps.esampaio.com.mylauncher.view.util.PixelUtils;
 
 public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     private ViewPager appsViewPager;
-
-    private ImageSwitcher imageSwitcher;
-    private Toolbar toolbar;
-    private ConstraintLayout rootLayout;
+    private ViewGroup rootLayout;
     private BackgroundCustomizer backgroundCustomizer;
 
     @Override
@@ -44,22 +43,9 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
         setContentView(R.layout.activity_home);
         ArrayList<Launchable> applications = PackageUtils.getLaunchables(this);
         appsViewPager = findViewById(R.id.vp);
-        imageSwitcher = findViewById(R.id.slide_trans_imageswitcher);
         rootLayout = findViewById(R.id.root_layout);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle(getString(R.string.my_apps));
-        imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-            public View makeView() {
-                ImageView myView = new ImageView(getApplicationContext());
-                myView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                myView.setLayoutParams(new
-                        ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT));
-                return myView;
-            }
-        });
         appsViewPager.addOnPageChangeListener(this);
+        appsViewPager.setPadding(0,0,0, PixelUtils.getNavigationBarHeight(this));
         AppsListPageAdapter pageAdapter = new AppsListPageAdapter(getSupportFragmentManager(), this, applications);
         appsViewPager.setAdapter(pageAdapter);
         this.backgroundCustomizer = new MultipleBackgroundCustomizer(this);

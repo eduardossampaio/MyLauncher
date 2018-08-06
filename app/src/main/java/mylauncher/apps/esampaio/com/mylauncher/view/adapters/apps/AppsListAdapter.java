@@ -14,6 +14,7 @@ import java.util.List;
 import mylauncher.apps.esampaio.com.mylauncher.R;
 import mylauncher.apps.esampaio.com.mylauncher.core.entities.InstalledApplication;
 import mylauncher.apps.esampaio.com.mylauncher.core.entities.Launchable;
+import mylauncher.apps.esampaio.com.mylauncher.core.preferences.AppPreferences;
 
 public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsListPageAdapterViewHolder> {
 
@@ -25,6 +26,7 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
         this.applications = applications;
     }
 
+
     @NonNull
     @Override
     public AppsListPageAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,12 +36,17 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
 
     @Override
     public void onBindViewHolder(@NonNull AppsListPageAdapterViewHolder holder, int position) {
-        holder.bind(context,applications.get(position));
+        if(position<applications.size()) {
+            holder.bind(context, applications.get(position));
+        }else {
+            holder.bind(context,null);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return applications == null ? 0 : applications.size();
+        return AppPreferences.getAppsNumberPerPage();
+        //return applications == null ? 0 : applications.size();
     }
 
     static  class AppsListPageAdapterViewHolder extends RecyclerView.ViewHolder{
@@ -52,9 +59,14 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
         }
 
         private void bind(final Context context,final Launchable application){
+            if(application == null){
+                this.itemView.setVisibility(View.INVISIBLE);
+                return;
+            }
+            this.itemView.setVisibility(View.VISIBLE);
             this.appIcon.setImageDrawable(application.getApplicationIcon(context));
             this.appText.setText(application.getApplicationName());
-            this.itemView.setOnClickListener(new View.OnClickListener() {
+            this.appIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     application.launch(context,null);

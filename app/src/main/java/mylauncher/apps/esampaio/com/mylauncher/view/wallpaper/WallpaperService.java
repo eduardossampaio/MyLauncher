@@ -25,6 +25,10 @@ public class WallpaperService {
     public void changeSystemWallpaper(Context context,int wallpaperResourceId){
         changeSystemWallpaper(context,context.getResources().getDrawable(wallpaperResourceId,null));
     }
+    public Drawable getSystemWallpaper(Context  context){
+        WallpaperManager myWallpaperManager = WallpaperManager.getInstance(context);
+        return myWallpaperManager.getDrawable();
+    }
     public void changeSystemWallpaper(Context context,Drawable wallpaperDrawable){
         WallpaperManager myWallpaperManager = WallpaperManager.getInstance(context);
         try {

@@ -4,6 +4,6 @@ public class AppPreferences {
 
 
     public static int getAppsNumberPerPage(){
-        return 20;
+        return 24;
     }
 }
