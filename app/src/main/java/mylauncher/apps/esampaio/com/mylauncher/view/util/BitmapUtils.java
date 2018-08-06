@@ -5,10 +5,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import com.jackandphantom.blurimage.BlurImage;
+import com.squareup.picasso.Picasso;
+
 import java.io.ByteArrayOutputStream;
+
+import static mylauncher.apps.esampaio.com.mylauncher.core.LauncherApplication.getAppContext;
 
 public class BitmapUtils {
 
@@ -22,6 +28,30 @@ public class BitmapUtils {
         return newBitmap;
     }
 
+    public static Bitmap getCropedBitmap(Bitmap source,int x,int y,int width,int height){
+        Bitmap bitmap = Bitmap.createBitmap(source, x, y, width, height);
+//        bitmap.recycle();
+        return bitmap;
+    }
+
+    public static Bitmap blurTopImage(Bitmap source,int height){
+        Bitmap topImage = getCropedBitmap(source,0,0,source.getWidth(),height);
+        Bitmap bluredTop = BlurImage.with(getAppContext()).load(topImage).intensity(80).Async(false).getImageBlur();
+        bluredTop = resizeBitmap(bluredTop,topImage.getWidth(),topImage.getHeight());
+        return overlay(source,bluredTop);
+    }
+
+    public static Bitmap resizeBitmap(Bitmap source,int newWidth,int newHeight){
+      return Bitmap.createScaledBitmap(source, newWidth, newHeight, false);
+    }
+
+    public static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
+        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(bmp1, new Matrix(), null);
+        canvas.drawBitmap(bmp2, new Matrix(), null);
+        return bmOverlay;
+    }
     public static Bitmap drawableToBitmap (Drawable drawable) {
         Bitmap bitmap = null;
 

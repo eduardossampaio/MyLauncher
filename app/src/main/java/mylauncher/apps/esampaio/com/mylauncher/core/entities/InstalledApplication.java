@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,9 +15,8 @@ import java.util.List;
 
 import mylauncher.apps.esampaio.com.mylauncher.R;
 
-public class Application implements Serializable {
+public class InstalledApplication implements Serializable,Launchable {
 
-//    private Drawable icon;
     private String name;
     private String packageName;
 
@@ -41,7 +41,7 @@ public class Application implements Serializable {
 
     }
 
-    public void launch(Context context){
+    public void launch(Context context, Bundle parameters){
         PackageManager packageManager = context.getPackageManager();
         Intent launchIntent =  packageManager.getLaunchIntentForPackage(this.packageName);
         if (launchIntent != null) {

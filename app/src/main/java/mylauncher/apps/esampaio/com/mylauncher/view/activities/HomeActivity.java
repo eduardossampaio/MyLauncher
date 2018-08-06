@@ -1,14 +1,11 @@
 package mylauncher.apps.esampaio.com.mylauncher.view.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -25,24 +22,27 @@ import android.widget.ViewSwitcher;
 import java.util.ArrayList;
 
 import mylauncher.apps.esampaio.com.mylauncher.R;
-import mylauncher.apps.esampaio.com.mylauncher.core.entities.Application;
+import mylauncher.apps.esampaio.com.mylauncher.core.entities.InstalledApplication;
+import mylauncher.apps.esampaio.com.mylauncher.core.entities.Launchable;
 import mylauncher.apps.esampaio.com.mylauncher.core.packages.PackageUtils;
 import mylauncher.apps.esampaio.com.mylauncher.view.adapters.apps.AppsListPageAdapter;
-import mylauncher.apps.esampaio.com.mylauncher.view.util.BitmapUtils;
+import mylauncher.apps.esampaio.com.mylauncher.view.customizers.background.BackgroundCustomizer;
+import mylauncher.apps.esampaio.com.mylauncher.view.customizers.background.MultipleBackgroundCustomizer;
 
 public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     private ViewPager appsViewPager;
-    private Bitmap[] backgroundsBitmaps;
+
     private ImageSwitcher imageSwitcher;
     private Toolbar toolbar;
     private ConstraintLayout rootLayout;
+    private BackgroundCustomizer backgroundCustomizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        ArrayList<Application> applications = PackageUtils.getInstalledPackages(this);
+        ArrayList<Launchable> applications = PackageUtils.getLaunchables(this);
         appsViewPager = findViewById(R.id.vp);
         imageSwitcher = findViewById(R.id.slide_trans_imageswitcher);
         rootLayout = findViewById(R.id.root_layout);
@@ -60,43 +60,10 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
             }
         });
         appsViewPager.addOnPageChangeListener(this);
-
         AppsListPageAdapter pageAdapter = new AppsListPageAdapter(getSupportFragmentManager(), this, applications);
         appsViewPager.setAdapter(pageAdapter);
-        //temporario
-        backgroundsBitmaps = new Bitmap[2];
-        int quality = 600;
-        backgroundsBitmaps[0] = BitmapUtils.decodeSampledBitmapFromResource(getResources(), R.drawable.wallpaper5, quality, quality);
-        backgroundsBitmaps[1] = BitmapUtils.decodeSampledBitmapFromResource(getResources(), R.drawable.wallpaper6, quality, quality);
-        setBackgroundImage(0);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        MenuItem item = menu.findItem(R.id.menu_item_settings);
-        Drawable icon = item.getIcon();
-        icon.setColorFilter(getResources().getColor(R.color.icons), PorterDuff.Mode.SRC_IN);
-
-        item.setIcon(icon);
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_item_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        return false;
+        this.backgroundCustomizer = new MultipleBackgroundCustomizer(this);
+        backgroundCustomizer.apply(rootLayout,appsViewPager.getCurrentItem());
     }
 
     @Override
@@ -129,7 +96,7 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
 
                 try {
                     int realPosition = position % 2;
-                    rootLayout.setBackground(new BitmapDrawable(getResources(), backgroundsBitmaps[realPosition]));
+                    backgroundCustomizer.apply(rootLayout,realPosition);
                 } catch (Exception e) {
 
                 }

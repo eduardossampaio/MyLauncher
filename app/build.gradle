@@ -9,6 +9,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
@@ -26,6 +28,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.jackandphantom.android:blurimage:1.2.0'
     implementation 'id.zelory:compressor:2.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

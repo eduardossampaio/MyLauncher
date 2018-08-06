@@ -7,20 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import mylauncher.apps.esampaio.com.mylauncher.R;
-import mylauncher.apps.esampaio.com.mylauncher.core.entities.Application;
+import mylauncher.apps.esampaio.com.mylauncher.core.entities.InstalledApplication;
+import mylauncher.apps.esampaio.com.mylauncher.core.entities.Launchable;
 
 public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsListPageAdapterViewHolder> {
 
     private Context context;
-    private List<Application> applications;
+    private List<Launchable> applications;
 
-    public AppsListAdapter(Context context,List<Application> applications){
+    public AppsListAdapter(Context context,List<Launchable> applications){
         this.context = context;
         this.applications = applications;
     }
@@ -51,13 +51,13 @@ public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.AppsLi
             this.appIcon = itemView.findViewById(R.id.app_icon);
         }
 
-        private void bind(final Context context,final Application application){
+        private void bind(final Context context,final Launchable application){
             this.appIcon.setImageDrawable(application.getApplicationIcon(context));
             this.appText.setText(application.getApplicationName());
             this.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    application.launch(context);
+                    application.launch(context,null);
                 }
             });
         }
